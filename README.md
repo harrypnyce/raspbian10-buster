@@ -1,4 +1,4 @@
-[Raspbian GNU/Linux 10 (buster) Lite](https://downloads.raspberrypi.org/raspbian_lite_latest.torrent) setup: (Wireguard, Pi-hole & Unbound)
+[Raspbian GNU/Linux 10 (buster) Lite](https://downloads.raspberrypi.org/raspbian_lite_latest.torrent) setup: (Wireguard, Pi-hole & Unbound) running on a Raspberry Pi 3 B+
 
 > Linux pihole2 4.19.56-v7+ #1242 SMP Wed Jun 26 17:31:47 BST 2019 armv7l GNU/Linux
 
