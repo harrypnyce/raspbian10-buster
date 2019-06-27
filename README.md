@@ -180,3 +180,44 @@ Start your local recursive DNS server (and test).
 
 	sudo service unbound start
 	dig pi-hole.net @127.0.0.1 -p 5353
+
+Create symbolic link to fix potential lighttpd breakage [issues with Pi-hole on Debian Buster](https://github.com/pi-hole/pi-hole/issues/2557).
+
+	sudo ln -s create-mime.assign.pl create-mime.conf.pl
+
+Wireguard Routing, NAT and Firewall
+
+	sudo iptables -A INPUT -i eth0 -p tcp --dport 80 -j ACCEPT
+	sudo iptables -A INPUT -i eth0 -p tcp --dport 53 -j ACCEPT
+	sudo iptables -A INPUT -i eth0 -p udp --dport 53 -j ACCEPT
+	sudo iptables -A INPUT -i eth0 -p udp --dport 67 -j ACCEPT
+	sudo iptables -A INPUT -i eth0 -p udp --dport 68 -j ACCEPT
+	sudo netfilter-persistent save
+	sudo netfilter-persistent reload
+
+Enable NAT
+
+	sudo iptables -t nat -A POSTROUTING -o wg0 -j MASQUERADE
+	
+Allow any traffic from eth0 (internal) to go over wg0 (point to point tunnel)
+
+	sudo iptables -A FORWARD -i eth0 -o wg0 -j ACCEPT
+
+Allow RELATED, ESTABLISHED wg0 (point to point tunnel) traffic to (internal) eth0 network
+
+	sudo iptables -A FORWARD -i wg0 -o eth0 -m state --state RELATED,ESTABLISHED -j ACCEPT
+
+	sudo iptables -A INPUT -i lo -j ACCEPT
+
+	sudo iptables -A INPUT -i eth0 -p icmp -j ACCEPT
+
+	sudo iptables -A INPUT -i eth0 -p tcp --dport 22 -j ACCEPT
+
+	sudo iptables -A INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT
+
+	sudo iptables -P FORWARD DROP
+	sudo iptables -P INPUT DROP
+	sudo iptables -L
+
+	sudo systemctl enable netfilter-persistent
+	sudo netfilter-persistent reload
