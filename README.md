@@ -26,7 +26,6 @@ Raspbian Buster Lite initial install.
 [Optional] Take some time to [configure and harden your SSH server](https://infosec.mozilla.org/guidelines/openssh.html).
 
     nano /etc/ssh/sshd_config
-    sudo nano .bash_aliases
     sudo apt update && sudo apt-get upgrade -y
 
 [Optional] [Add real-time clock DS3231](https://sigmdel.ca/michel/ha/rpi/rtc_en.html) to RPi3 B+.
@@ -39,8 +38,8 @@ https://www.raspberrypi-spy.co.uk/2015/05/adding-a-ds3231-real-time-clock-to-the
 		rtc-ds1307
     sudo i2cdetect -y 1
     sudo nano /etc/rc.local
-		"echo ds1307 0x68 > /sys/class/i2c-adapter/i2c-1/new_device
-    hwclock -s"
+		echo ds1307 0x68 > /sys/class/i2c-adapter/i2c-1/new_device
+    		hwclock -s
     sudo reboot
     date
     sudo date -s "Thu 27 Jun 2019 01:41:20"
@@ -88,7 +87,7 @@ Setup Wireguard VPN server network interface, using server PRIVATE key & client 
     sudo nano /etc/wireguard/wg0.conf		
 
 
-    "[Interface]
+    [Interface]
     Address = 192.168.99.1/24
     ListenPort = 51820
 
@@ -99,7 +98,7 @@ Setup Wireguard VPN server network interface, using server PRIVATE key & client 
     [Peer]
     #Client1
     PublicKey = <client1_public.key>
-    AllowedIPs = 192.168.99.2/32"
+    AllowedIPs = 192.168.99.2/32
 
 Start Wireguard VPN server
 
