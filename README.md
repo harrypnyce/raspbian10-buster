@@ -131,7 +131,7 @@ Configure unbound
     server:
     # If no logfile is specified, syslog is used
     # logfile: "/var/log/unbound/unbound.log"
-    verbosity: 0
+    verbosity: 2
 
     port: 5353
     do-ip4: yes
