@@ -23,7 +23,7 @@ Generate SSH key pairs.
 
     ssh-copy-id -i ~/.ssh/id_rsa user@host/ip
 
-[Optional] Take some time to configure and harden your SSH clients and servers.
+[Optional] Take some time to configure and harden your SSH server.
 
     nano /etc/ssh/sshd_config
     sudo nano .bash_aliases
