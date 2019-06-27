@@ -1,9 +1,9 @@
-Raspbian GNU/Linux 10 (buster) Lite setup: (Wireguard, Pi-hole & Unbound)
+[Raspbian GNU/Linux 10 (buster) Lite](https://downloads.raspberrypi.org/raspbian_lite_latest.torrent) setup: (Wireguard, Pi-hole & Unbound)
 
 > Linux pihole2 4.19.56-v7+ #1242 SMP Wed Jun 26 17:31:47 BST 2019 armv7l GNU/Linux
 
 Raspbian Buster Lite initial install.		
-Change default username & password (pi/raspberry).
+[Change default username](https://unix.stackexchange.com/questions/98461/proper-way-of-changing-username-in-ubuntu-or-any-linux) & password (pi/raspberry).
 
     passwd
     usermod -aG sudo user
@@ -11,11 +11,11 @@ Change default username & password (pi/raspberry).
     usermod -d /home/user -m -g user -l user pi
     sudo rpi-update
 
-Use console based raspi-config application to make configuration changes.
+[Use console based raspi-config](https://www.raspberrypi.org/documentation/configuration/raspi-config.md) application to make configuration changes.
 
     sudo raspi-config
     
-Generate SSH key pairs.
+[Generate SSH key pairs](https://www.ssh.com/ssh/keygen/).
 
     ssh-keygen -t rsa -b 4096
 
@@ -23,13 +23,15 @@ Generate SSH key pairs.
 
     ssh-copy-id -i ~/.ssh/id_rsa user@host/ip
 
-[Optional] Take some time to configure and harden your SSH server.
+[Optional] Take some time to [configure and harden your SSH server](https://infosec.mozilla.org/guidelines/openssh.html).
 
     nano /etc/ssh/sshd_config
     sudo nano .bash_aliases
     sudo apt update && sudo apt-get upgrade -y
 
-[Optional] Add real-time clock DS3231 to RPi3 B+.
+[Optional] [Add real-time clock DS3231](https://sigmdel.ca/michel/ha/rpi/rtc_en.html) to RPi3 B+.
+
+https://www.raspberrypi-spy.co.uk/2015/05/adding-a-ds3231-real-time-clock-to-the-raspberry-pi/
 
     apt-get purge fake-hwclock
     sudo apt-get install python-smbus i2c-tools
@@ -44,6 +46,8 @@ Generate SSH key pairs.
     sudo date -s "Thu 27 Jun 2019 01:41:20"
     sudo hwclock -w
     date; sudo hwclock -r
+
+[Wireguard installation](https://github.com/adrianmihalko/raspberrypiwireguard).
 
     sudo apt-get install hostapd dnsmasq libmnl-dev linux-headers-rpi build-essential git dnsutils bc raspberrypi-kernel-headers iptables-persistent -y
     echo "deb http://deb.debian.org/debian/ unstable main" > /etc/apt/sources.list.d/unstable-wireguard.list
@@ -64,7 +68,7 @@ Confirm previous changes.
 
     sysctl net.ipv4.ip_forward		
 		
-Configure WireGuard
+[Configure WireGuard](https://github.com/adrianmihalko/raspberrypiwireguard)
 
     mkdir wgkeys		
     cd wgkeys		
@@ -107,6 +111,72 @@ Automatically launch Wireguard at system startup.
     sudo systemctl enable wg-quick@wg0
     sudo apt install qrencode
 		
-Install Pi-hole (select upstream DNS servers)... we will be changing this to use Unbound.
+Install [Pi-hole then Unbound](https://docs.pi-hole.net/guides/unbound/).
 
     sudo curl -sSL https://install.pi-hole.net | bash
+
+Setting up Pi-hole as a recursive DNS server.
+
+	sudo apt install unbound
+	
+Download current root hints file.
+
+	wget -O root.hints https://www.internic.net/domain/named.root
+	sudo mv root.hints /var/lib/unbound/
+	
+Configure unbound
+
+	sudo nano /etc/unbound/unbound.conf.d/pi-hole.conf
+	
+    server:
+    # If no logfile is specified, syslog is used
+    # logfile: "/var/log/unbound/unbound.log"
+    verbosity: 0
+
+    port: 5353
+    do-ip4: yes
+    do-udp: yes
+    do-tcp: yes
+
+    # May be set to yes if you have IPv6 connectivity
+    do-ip6: no
+
+    # Use this only when you downloaded the list of primary root servers!
+    root-hints: "/var/lib/unbound/root.hints"
+
+    # Trust glue only if it is within the servers authority
+    harden-glue: yes
+
+    # Require DNSSEC data for trust-anchored zones, if such data is absent, the zone becomes BOGUS
+    harden-dnssec-stripped: yes
+
+    # Don't use Capitalization randomization as it known to cause DNSSEC issues sometimes
+    # see https://discourse.pi-hole.net/t/unbound-stubby-or-dnscrypt-proxy/9378 for further details
+    use-caps-for-id: no
+
+    # Reduce EDNS reassembly buffer size.
+    # Suggested by the unbound man page to reduce fragmentation reassembly problems
+    edns-buffer-size: 1472
+
+    # Perform prefetching of close to expired message cache entries
+    # This only applies to domains that have been frequently queried
+    prefetch: yes
+
+    # One thread should be sufficient, can be increased on beefy machines. In reality for most users running on small networks or on a single machine it should be unnecessary to seek performance enhancement by increasing num-threads above 1.
+    num-threads: 1
+
+    # Ensure kernel buffer is large enough to not lose messages in traffic spikes
+    so-rcvbuf: 1m
+
+    # Ensure privacy of local IP ranges
+    private-address: 192.168.0.0/16
+    private-address: 169.254.0.0/16
+    private-address: 172.16.0.0/12
+    private-address: 10.0.0.0/8
+    private-address: fd00::/8
+    private-address: fe80::/10
+    
+Start your local recursive DNS server (and test).
+
+	sudo service unbound start
+	dig pi-hole.net @127.0.0.1 -p 5353
