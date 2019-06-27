@@ -62,7 +62,7 @@ https://www.raspberrypi-spy.co.uk/2015/05/adding-a-ds3231-real-time-clock-to-the
 Enable IPv4 forwarding (reboot required to activate forwarding).
 
     sudo perl -pi -e 's/#{1,}?net.ipv4.ip_forward ?= ?(0|1)/net.ipv4.ip_forward = 1/g' /etc/sysctl.conf
-		sudo reboot
+    sudo reboot
 
 Confirm previous changes.
 
