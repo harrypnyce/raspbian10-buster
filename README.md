@@ -113,6 +113,11 @@ Automatically launch Wireguard at system startup.
 Install [Pi-hole then Unbound](https://docs.pi-hole.net/guides/unbound/).
 
     sudo curl -sSL https://install.pi-hole.net | bash
+    
+Fix (potential) issues related to Debian 10 (Buster)
+
+	cd /usr/share/lighttpd/
+	sudo ln -s create-mime.conf.pl create-mime.assign.pl
 
 Setting up Pi-hole as a recursive DNS server.
 
