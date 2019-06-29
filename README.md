@@ -181,6 +181,7 @@ Start your local recursive DNS server (and test).
 	dig pi-hole.net @127.0.0.1 -p 5353
 
 Create symbolic link to fix potential lighttpd breakage [issues with Pi-hole on Debian Buster](https://github.com/pi-hole/pi-hole/issues/2557).
+*** This can be skipped, as it should now be resolved in the Latest Pi-hole v4.3.1 update. (Saturday, June 29, 2019) ***
 
 	cd /usr/share/lighttpd/
 	sudo ln -s create-mime.conf.pl create-mime.assign.pl
@@ -221,3 +222,17 @@ Allow RELATED, ESTABLISHED wg0 (point to point tunnel) traffic to (internal) eth
 
 	sudo systemctl enable netfilter-persistent
 	sudo netfilter-persistent reload
+	
+[Convert IPtables to nftables](https://wiki.nftables.org/wiki-nftables/index.php/Moving_from_iptables_to_nftables) (v0.9.0-2)
+	
+	sudo apt install nftables
+
+Any untranslated rule(s) will be prefixed by a hash sign (#), as shown in the following example:
+
+	iptables-translate -A INPUT -j CHECKSUM --checksum-fill
+nft # -A INPUT -j CHECKSUM --checksum-fill
+
+	iptables-save > rules.iptables
+	iptables-restore-translate -f rules.iptables > rules.nft
+	nft -f rules.nft
+	nft list ruleset
