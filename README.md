@@ -53,7 +53,9 @@ https://www.raspberrypi-spy.co.uk/2015/05/adding-a-ds3231-real-time-clock-to-the
     sudo su
     printf 'Package: *\nPin: release a=unstable\nPin-Priority: 90\n' > /etc/apt/preferences.d/limit-unstable
     sudo apt-key adv --keyserver   keyserver.ubuntu.com --recv-keys 7638D0442B90D010
-    sudo apt-key adv --keyserver   keyserver.ubuntu.com --recv-keys 04EE7237B7D453EC
+    
+~~sudo apt-key adv --keyserver   keyserver.ubuntu.com --recv-keys 04EE7237B7D453EC~~ (_only the first pubkey was necessary_)
+
     sudo apt update
     sudo apt-get install wireguard -y
     sudo reboot		
