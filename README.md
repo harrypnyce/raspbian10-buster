@@ -28,7 +28,7 @@ Raspbian Buster Lite initial install.
     nano /etc/ssh/sshd_config
     sudo apt update && sudo apt-get upgrade -y
 
-[Optional] [Add real-time clock DS3231](https://sigmdel.ca/michel/ha/rpi/rtc_en.html) to RPi3 B+.
+[Optional] [Add real-time clock DS3231](https://sigmdel.ca/michel/ha/rpi/rtc_en.html) to RPi3 B+ (for DNSSEC accuracy, as the Raspberry Pi devices lack a proper hardware clock).
 
 https://www.raspberrypi-spy.co.uk/2015/05/adding-a-ds3231-real-time-clock-to-the-raspberry-pi/
 
@@ -162,6 +162,22 @@ Configure unbound
     # Perform prefetching of close to expired message cache entries
     # This only applies to domains that have been frequently queried
     prefetch: yes
+    
+    # This attempts to reduce latency by serving the outdated record before
+    # updating it instead of the other way around. Alternative is to increase
+    # cache-min-ttl to e.g. 3600.
+    cache-min-ttl: 0
+    serve-expired: yes
+    # serve-expired-ttl: 3600 # 0 or not set means unlimited (I think)
+
+    # Use about 2x more for rrset cache, total memory use is about 2-2.5x
+    # total cache size. Current setting is way overkill for a small network.
+    # Judging from my used cache size you can get away with 8/16 and still
+    # have lots of room, but I've got the ram and I'm not using it on anything else.
+    # Default is 4m/4m
+    msg-cache-size: 128m
+    rrset-cache-size: 256m
+
 
     # One thread should be sufficient, can be increased on beefy machines. In reality for most users running on small networks or on a single machine it should be unnecessary to seek performance enhancement by increasing num-threads above 1.
     num-threads: 1
