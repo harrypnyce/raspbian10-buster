@@ -1,6 +1,7 @@
 [Raspbian GNU/Linux 10 (buster) Lite](https://downloads.raspberrypi.org/raspbian_lite_latest.torrent) setup: (Wireguard, Pi-hole & Unbound) running on a Raspberry Pi 3 B+
 
-> Linux pihole2 4.19.56-v7+ #1242 SMP Wed Jun 26 17:31:47 BST 2019 armv7l GNU/Linux
+> ~~Linux pihole2 4.19.56-v7+ #1242 SMP Wed Jun 26 17:31:47 BST 2019 armv7l GNU/Linux~~ (updated for new kernel)
+> Linux pihole2 4.19.75-v7+ #1271 SMP Mon Sep 30 13:49:02 BST 2019 armv7l GNU/Linux
 
 Raspbian Buster Lite initial install.		
 [Change default username](https://unix.stackexchange.com/questions/98461/proper-way-of-changing-username-in-ubuntu-or-any-linux) & password (pi/raspberry).
@@ -52,7 +53,7 @@ https://www.raspberrypi-spy.co.uk/2015/05/adding-a-ds3231-real-time-clock-to-the
     echo "deb http://deb.debian.org/debian/ unstable main" > /etc/apt/sources.list.d/unstable-wireguard.list
     sudo su
     printf 'Package: *\nPin: release a=unstable\nPin-Priority: 90\n' > /etc/apt/preferences.d/limit-unstable
-    sudo apt-key adv --keyserver   keyserver.ubuntu.com --recv-keys 7638D0442B90D010
+    sudo apt-key adv --keyserver   keyserver.ubuntu.com --recv-keys 04EE7237B7D453EC
     
 ~~sudo apt-key adv --keyserver   keyserver.ubuntu.com --recv-keys 04EE7237B7D453EC~~ (_only the first pubkey was necessary_)
 
