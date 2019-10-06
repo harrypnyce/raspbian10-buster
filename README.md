@@ -201,7 +201,7 @@ Start your local recursive DNS server (and test).
 ~~Create symbolic link to fix potential lighttpd breakage~~ [issues with Pi-hole on Debian Buster](https://github.com/pi-hole/pi-hole/issues/2557).
 *** This can be skipped, as it should now be resolved in the Latest Pi-hole v4.3.1 update. (Saturday, June 29, 2019) ***
 
-[SKIP THIS PORTION (regarding lighttpd)]
+*[SKIP THIS PORTION (regarding lighttpd)]*
 	
 	cd /usr/share/lighttpd/
 	sudo ln -s create-mime.conf.pl create-mime.assign.pl
