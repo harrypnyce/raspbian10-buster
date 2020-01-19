@@ -9,8 +9,8 @@ Raspbian Buster Lite initial install.
     passwd
     usermod -aG sudo user
     groupadd user
-    usermod -d /home/user -m -g user -l user pi
-    ~~sudo rpi-update~~ [latest bleeding-edge firmware and kernel no longer needed for these use-case(s)] https://github.com/Hexxeh/rpi-update
+    usermod -d /home/user -m -g user -l user pi 
+~~sudo rpi-update~~ [latest bleeding-edge firmware and kernel no longer needed for these use-case(s)] https://github.com/Hexxeh/rpi-update
 
 [Use console based raspi-config](https://www.raspberrypi.org/documentation/configuration/raspi-config.md) application to make configuration changes.
 
