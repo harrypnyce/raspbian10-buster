@@ -48,6 +48,7 @@ https://www.raspberrypi-spy.co.uk/2015/05/adding-a-ds3231-real-time-clock-to-the
     date; sudo hwclock -r
 
 [Wireguard installation](https://pivpn.dev/) (original notes based off of this great script --> https://github.com/adrianmihalko/raspberrypiwireguard).
+
     curl -L https://install.pivpn.dev | bash
 The above Wireguard installer handles EVERYTHING -- once finished, please reboot and skip down to the "Unbound" section and proceed normally.
     
