@@ -50,9 +50,11 @@ https://www.raspberrypi-spy.co.uk/2015/05/adding-a-ds3231-real-time-clock-to-the
 [Wireguard installation](https://pivpn.dev/) (original notes based off of this great script --> https://github.com/adrianmihalko/raspberrypiwireguard).
 
     curl -L https://install.pivpn.dev | bash
-The above Wireguard installer handles EVERYTHING -- once finished, please reboot and skip down to the "Unbound" section and proceed normally.
-    
+The above Wireguard installer handles EVERYTHING -- once finished, please reboot and skip down to the "Install Pi-hole" section and proceed normally.
+
 If you can do this better yourself, please continue, HOWEVER i urge you to consider utilizing the superb installer from team at www.pivpn.dev as it allows for customization of VPN port, encryption strength, DNS server, etc.  It's extremely powerful, even for experts -- also allows option of using OpenVPN server installation if you're not yet ready to try Wireguard.
+
+---
 
     sudo apt-get install hostapd dnsmasq libmnl-dev linux-headers-rpi build-essential git dnsutils bc raspberrypi-kernel-headers iptables-persistent -y
     echo "deb http://deb.debian.org/debian/ unstable main" > /etc/apt/sources.list.d/unstable-wireguard.list
@@ -118,6 +120,8 @@ Automatically launch Wireguard at system startup.
     sudo systemctl enable wg-quick@wg0
     sudo apt install qrencode
 		
+---
+
 Install [Pi-hole then Unbound](https://docs.pi-hole.net/guides/unbound/).
 
     sudo curl -sSL https://install.pi-hole.net | bash
