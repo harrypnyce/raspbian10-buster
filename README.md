@@ -47,12 +47,12 @@ https://www.raspberrypi-spy.co.uk/2015/05/adding-a-ds3231-real-time-clock-to-the
     sudo hwclock -w
     date; sudo hwclock -r
 
-[Wireguard installation](https://pivpn.dev/) (original notes based off of this great script --> https://github.com/adrianmihalko/raspberrypiwireguard).
+[Wireguard installation](https://pivpn.io/) (Notes for previous build based off of this great script --> https://github.com/adrianmihalko/raspberrypiwireguard).
 
     curl -L https://install.pivpn.io | bash
 The above Wireguard installer handles EVERYTHING -- once finished, please reboot and skip down to the "Install Pi-hole" section and proceed normally.
 
-> If you prefer to build this all yourself, please by all means continue, _HOWEVER_ i urge you to consider utilizing the superb aforementioned installer from the team at https://pivpn.io/ as it allows for customization of VPN port, encryption strength, DNS server, etc.  It's extremely powerful, even for experts -- also allows option of using OpenVPN server installation if you're not yet ready to try Wireguard.
+> If you prefer to build this all yourself, please by all means continue, _HOWEVER_ i urge you to consider utilizing the superb aforementioned installer from the team at https://pivpn.io/ as it allows for customization of VPN port, encryption strength, DNS server, etc.  It's extremely powerful, even for experts -- also allows option of using OpenVPN server installation if you're not yet ready to try [Wireguard](https://www.wireguard.com/).
 
 ---
 
