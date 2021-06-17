@@ -31,7 +31,7 @@ Raspbian Buster Lite initial install.
 
 [Optional] [Add real-time clock DS3231](https://sigmdel.ca/michel/ha/rpi/rtc_en.html) to RPi3 B+ (for DNSSEC accuracy, as the Raspberry Pi devices lack a proper hardware clock).
 
-https://www.raspberrypi-spy.co.uk/2015/05/adding-a-ds3231-real-time-clock-to-the-raspberry-pi/
+https://cdn-learn.adafruit.com/downloads/pdf/adding-a-real-time-clock-to-raspberry-pi.pdf
 
     apt-get purge fake-hwclock
     sudo apt-get install python-smbus i2c-tools
